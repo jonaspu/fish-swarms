@@ -3,9 +3,16 @@ maxX = 10;
 maxY = 10;
 step = 0.01;
 
+% method of predator predator forces
+% method = 1: no force
+% method = 2: repulsive force
+% method = 3: attractive force
+method = 3;
+
+
 %create predators and preys and their corresponding matrices
-nOfPrey = 5;
-nOfPred = 1;
+nOfPrey = 7;
+nOfPred = 3;
 positionPrey = rand(2,nOfPrey);
 positionPred = rand(2, nOfPred);
 
@@ -15,8 +22,8 @@ speedPred = zeros(2, nOfPred);
 positionPredTemp = zeros(2, nOfPred);
 positionTemp = zeros(2, nOfPrey);
 
-positionPrey = positionPrey * 10 ;
-positionPred = positionPred * 20;
+positionPrey = positionPrey *  2 -1;
+positionPred = positionPred * 5- 2.5;
 %the prey variables
 gamma = 0;
 alpha = -1;
@@ -32,17 +39,9 @@ for l = 1:100000
 
 
    %%updating the predators
-    for s = 1 : nOfPred
-        vectorPred = bsxfun(@minus, positionPrey, positionPred(:,s));
-        distancePred = sqrt(sum(vectorPred.^2, 1));
-        predForce = bsxfun(@times, vectorPred, distancePred.^(gamma-1));
-
-        finalPredForce = sum(predForce, 2) - (predFraction * speedPred(:,s));
-        accPred = finalPredForce ./ massPred;
-        speedPred(:,s) = speedPred(:,s) + step*accPred;
-        positionPredTemp(:,s) = positionPred(:,s) + step*speedPred(:,s);
-       
-    end
+   
+   updatePred;
+    
     %%updating the preys
     for i = 1 : nOfPrey 
        vector =  bsxfun(@minus, positionPrey , positionPrey(:,i));
