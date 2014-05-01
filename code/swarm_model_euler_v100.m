@@ -1,7 +1,14 @@
-%field has size 100 x 100;
+%--------VARIBALES TO SET--------%
+
+% field size
 maxX = 10;
 maxY = 10;
-step = 0.01;
+
+% spreading of prey (range of initial position)
+spreadPrey = 3;
+
+% spreading of predator (range of initial position)
+spreadPred = 2;
 
 % method of predator predator forces
 % method = 1: no force
@@ -9,88 +16,109 @@ step = 0.01;
 % method = 3: attractive force
 method = 3;
 
-
-%create predators and preys and their corresponding matrices
+% number of preys
 nOfPrey = 7;
+
+% number of predators
 nOfPred = 3;
-positionPrey = rand(2,nOfPrey);
-positionPred = rand(2, nOfPred);
 
-speedPrey = zeros(2, nOfPrey);
-speedPred = zeros(2, nOfPred);
+%the function variables
+gamma = 0;
+alpha = -1;
 
+% mass of prey
+preyMass = 0.2;
+
+% mass of predator
+predMass = 0.2;
+
+% preyFriction of prey
+preyFriction = 0.2;
+
+% preyFriction of predator
+predFriction = 0.4;
+
+
+
+%--------INITIALISATION--------%
+
+% timestep (0.01 seems to be optimal)
+step = 0.01;
+
+% prey setup
+positionPrey = rand(2,nOfPrey) * spreadPrey - spreadPrey/2; % position
+speedPrey = zeros(2, nOfPrey); % speed
+
+% predator setup
+positionPred = rand(2, nOfPred) * spreadPred - spreadPred/2; % position
+speedPred = zeros(2, nOfPred); % speed
+
+% temporariy positions for calculation
 positionPredTemp = zeros(2, nOfPred);
 positionTemp = zeros(2, nOfPrey);
 
-positionPrey = positionPrey *  2 -1;
-positionPred = positionPred * 5- 2.5;
-%the prey variables
-gamma = 0;
-alpha = -1;
-massPrey = 0.2;
-fraction = 0.2;
-%the predator variables
-predFraction = 0.4;
-massPred = 0.2;
-
-
-%%calculate position and velocitiy of every prey / predator
+%--------ITERATION--------%
 for l = 1:100000
 
-
-   %%updating the predators
-   
-   updatePred;
+    %updating the predators
+    updatePred;
     
-    %%updating the preys
+    %updating the preys
     for i = 1 : nOfPrey 
-       vector =  bsxfun(@minus, positionPrey , positionPrey(:,i));
-       distance = sqrt(sum(vector.^2, 1));
-       attract = bsxfun(@times, vector, distance.^(gamma-1));
-       attract = attract(:, all(~isnan(attract)));
-       repulse = bsxfun(@times, vector, distance.^(alpha-1));
-       repulse = repulse(:, all(~isnan(repulse)));
-       
+        
+        % prey-prey forces
+        % vectors between actual prey to all preys
+        vector =  bsxfun(@minus, positionPrey , positionPrey(:,i));
+        
+        % norms of vectors
+        distance = sqrt(sum(vector.^2, 1));
+        
+        % attractive force & deletion of nan values
+        attract = bsxfun(@times, vector, distance.^(gamma-1));
+        attract = attract(:, all(~isnan(attract)));
+        
+        % repulsive force % deletion of nan values
+        repulse = bsxfun(@times, vector, distance.^(alpha-1));
+        repulse = repulse(:, all(~isnan(repulse)));
+        
+        
+        % prey-predator forces
+        % vectors between actual prey to all predators
         vectorPred = bsxfun(@minus, positionPred, positionPrey(:,i));
+        
+        % norms of vectors
         distancePred = sqrt(sum(vectorPred.^2, 1));
-        predpreyForce = sum(bsxfun(@times, vectorPred, distancePred.^(gamma-1)),2);
+        
        
-       % mass = 1, therefore force = acceleration
-       completeForce = sum(attract-repulse, 2);
-       finalForce = completeForce - fraction*speedPrey(:, i) - predpreyForce;
+        % pred-prey force
+        predpreyForce = sum(bsxfun(@times, vectorPred, distancePred.^(gamma-1)),2);
+
+        % prey-prey force
+        completeForce = sum(attract-repulse, 2);
         
-    
+        % complete force with friction
+        finalForce = completeForce - preyFriction*speedPrey(:, i) - predpreyForce;
         
+        % acceleration
+        acceleration = finalForce./preyMass;
         
-        acceleration = finalForce./massPrey;
-       % newspeedprey = oldspeed + acceleration * 1timeunit (one iteration)
-%        speedPrey(:, i) = speedPrey(:, i) + acceleration;
-%        positionTemp(:, i) = positionPrey(:, i) + speedPrey(:, i);
+        % speedupdate
         speedPrey(:, i) = speedPrey(:, i) + step*acceleration;
-        positionTemp(:,i) = positionPrey(:,i) + step*speedPrey(:,i);
         
+        % positionupdate
+        positionTemp(:,i) = positionPrey(:,i) + step*speedPrey(:,i);
+
     end
 
     %updating the position of preys
     positionPrey = positionTemp;
     positionPred = positionPredTemp;
     
-    
-    
-    
-    %%plotting the preys & predators
+    %plotting the preys & predators
     plot(positionPrey(1, :), positionPrey(2, :), 'b*', positionPred(1,:), positionPred(2,:), 'r*')
     xlim([-maxX, maxY])
     ylim([-maxX, maxY])
     pause(0.0001)
-      
-% % %     for j = 1: 10
-% % %     plot(positionPrey(1,:),positionPrey(2,:), '*')
-% % %     xlim([-maxX, maxY])
-% % %     ylim([-maxX, maxY])
-% % %     positionPrey = positionPrey + (positionTemp-positionPrey)./10;
-% % %     pause(0.0005)  
-% % %     end
     
 end
 

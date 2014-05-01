@@ -1,4 +1,4 @@
-% No Force
+%--------NO FORCE--------%
 if( method == 1) 
     for s = 1 : nOfPred
         % vector between predator and prey
@@ -10,11 +10,11 @@ if( method == 1)
         % force on predator without friction
         predForce = bsxfun(@times, vectorPred, distancePred.^(gamma-1));
         
-        % force on predator with fraction
-        finalPredForce = sum(predForce, 2) - (predFraction * speedPred(:,s));
+        % force on predator with preyFriction
+        finalPredForce = sum(predForce, 2) - (predFriction * speedPred(:,s));
         
         % acceleration of predator
-        accPred = finalPredForce ./ massPred;
+        accPred = finalPredForce ./ predMass;
         
         % speedupdate
         speedPred(:,s) = speedPred(:,s) + step*accPred;
@@ -25,7 +25,7 @@ if( method == 1)
     end
 end
 
-%  repulsive force
+%--------REPULSIVE FORCE--------%
 if( method == 2) 
     for s = 1 : nOfPred
         % vector between predator and prey
@@ -38,7 +38,7 @@ if( method == 2)
         predForce = bsxfun(@times, vectorPred, distancePred.^(gamma-1));
 
         % force on predator by preys and friction
-        frictionPredForce = sum(predForce, 2) - (predFraction * speedPred(:,s));
+        frictionPredForce = sum(predForce, 2) - (predFriction * speedPred(:,s));
 
         % vector between predator and predator
         vectorPredPred = bsxfun(@minus, positionPred, positionPred(:, s));
@@ -62,7 +62,7 @@ if( method == 2)
 
 
         % acceleration of predator
-        accPred = finalPredForce ./ massPred;
+        accPred = finalPredForce ./ predMass;
 
         % speedupdate
         speedPred(:,s) = speedPred(:,s) + step*accPred;
@@ -75,7 +75,7 @@ if( method == 2)
     
 end
 
-% attractive force
+%--------ATTRACTIVE FORCE--------%
 if( method == 3)
     for s = 1 : nOfPred
         % vector between predator and prey
@@ -88,7 +88,7 @@ if( method == 3)
         predForce = bsxfun(@times, vectorPred, distancePred.^(gamma-1));
 
         % force on predator by preys and friction
-        frictionPredForce = sum(predForce, 2) - (predFraction * speedPred(:,s));
+        frictionPredForce = sum(predForce, 2) - (predFriction * speedPred(:,s));
 
         % vector between predator and predator
         vectorPredPred = bsxfun(@minus, positionPred, positionPred(:, s));
@@ -112,7 +112,7 @@ if( method == 3)
 
 
         % acceleration of predator
-        accPred = finalPredForce ./ massPred;
+        accPred = finalPredForce ./ predMass;
 
         % speedupdate
         speedPred(:,s) = speedPred(:,s) + step*accPred;
