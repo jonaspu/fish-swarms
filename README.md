@@ -19,6 +19,7 @@ We will consider only interactions between preys, preys and predators and also b
 
 # Fundamental Question
 
+What influence the parameters have on the behaviour of the swarm / predator? 
 Which configuration of the model best reflects the reality?
 Is the configuration found in the first question the best for a swarm attacked by a predator, if not what optimization could be done?
 
