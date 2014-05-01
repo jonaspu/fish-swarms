@@ -20,7 +20,7 @@ We will consider only interactions between preys, preys and predators and also b
 # Fundamental Question
 
 Which configuration of the model best reflects the reality?
-Is the found configuration found in the first question the best for a swarm attacked by a predator, if not what optimization could be done?
+Is the configuration found in the first question the best for a swarm attacked by a predator, if not what optimization could be done?
 
 
 # Expected Results
