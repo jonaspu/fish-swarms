@@ -1,11 +1,11 @@
 %--------VARIBALES TO SET--------%
 
 % field size
-maxX = 10;
-maxY = 10;
+maxX = 20;
+maxY = 20;
 
 % spreading of prey (range of initial position)
-spreadPrey = 3;
+spreadPrey = 5;
 
 % spreading of predator (range of initial position)
 spreadPred = 2;
@@ -23,11 +23,11 @@ nOfPrey = 7;
 nOfPred = 3;
 
 %the function variables
-gamma = 0;
-alpha = -1;
+gamma = -1;
+alpha = -2;
 
 % mass of prey
-preyMass = 0.2;
+preyMass = 0.1;
 
 % mass of predator
 predMass = 0.2;
@@ -36,7 +36,7 @@ predMass = 0.2;
 preyFriction = 0.2;
 
 % preyFriction of predator
-predFriction = 0.4;
+predFriction = 0.2;
 
 
 
