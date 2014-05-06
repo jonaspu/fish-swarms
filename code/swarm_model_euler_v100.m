@@ -33,10 +33,10 @@ preyMass = 0.1;
 predMass = 0.2;
 
 % preyFriction of prey
-preyFriction = 0.2;
+preyFriction = 0.1;
 
 % preyFriction of predator
-predFriction = 0.2;
+predFriction = 0.1;
 
 
 
@@ -56,6 +56,10 @@ speedPred = zeros(2, nOfPred); % speed
 % temporariy positions for calculation
 positionPredTemp = zeros(2, nOfPred);
 positionTemp = zeros(2, nOfPrey);
+
+% save of the simulation
+preyPlot = positionPrey;
+predPlot = positionPred;
 
 %--------ITERATION--------%
 for l = 1:100000
@@ -113,6 +117,10 @@ for l = 1:100000
     %updating the position of preys
     positionPrey = positionTemp;
     positionPred = positionPredTemp;
+    
+    % save positions for later plotting
+    preyPlot = [preyPlot; positionPrey];
+    predPlot = [predPlot; positionPred];
     
     %plotting the preys & predators
     plot(positionPrey(1, :), positionPrey(2, :), 'b*', positionPred(1,:), positionPred(2,:), 'r*')
