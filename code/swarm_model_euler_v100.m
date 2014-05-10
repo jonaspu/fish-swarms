@@ -1,8 +1,9 @@
 %--------VARIBALES TO SET--------%
-
+%clear windows and workspace
+clc; clear;
 % field size
-maxX = 20;
-maxY = 20;
+maxX = 10;
+maxY = 10;
 
 % spreading of prey (range of initial position)
 spreadPrey = 5;
@@ -14,13 +15,13 @@ spreadPred = 2;
 % method = 1: no force
 % method = 2: repulsive force
 % method = 3: attractive force
-method = 3;
+method = 2;
 
 % number of preys
 nOfPrey = 7;
 
 % number of predators
-nOfPred = 3;
+nOfPred = 2;
 
 %the function variables
 gamma = -1;
@@ -28,15 +29,15 @@ alpha = -2;
 
 % mass of prey
 preyMass = 0.1;
+% preyFriction of prey
+preyFriction = 0.2;
+
+
 
 % mass of predator
-predMass = 0.2;
-
-% preyFriction of prey
-preyFriction = 0.1;
-
+predMass = 0.3;
 % preyFriction of predator
-predFriction = 0.1;
+predFriction = 0.2;
 
 
 
@@ -48,10 +49,14 @@ step = 0.01;
 % prey setup
 positionPrey = rand(2,nOfPrey) * spreadPrey - spreadPrey/2; % position
 speedPrey = zeros(2, nOfPrey); % speed
+startPositionPrey = positionPrey;
+% to restore the startingpoints for the plot
+% positionPrey = startPositionPrey;
 
 % predator setup
 positionPred = rand(2, nOfPred) * spreadPred - spreadPred/2; % position
 speedPred = zeros(2, nOfPred); % speed
+startPositionPred = positionPred;
 
 % temporariy positions for calculation
 positionPredTemp = zeros(2, nOfPred);
