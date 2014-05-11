@@ -21,7 +21,7 @@ method = 2;
 nOfPrey = 7;
 
 % number of predators
-nOfPred = 2;
+nOfPred = 1;
 
 %the function variables
 gamma = -1;
@@ -30,14 +30,14 @@ alpha = -2;
 % mass of prey
 preyMass = 0.1;
 % preyFriction of prey
-preyFriction = 0.2;
+preyFriction = 0.5;
 
 
 
 % mass of predator
-predMass = 0.3;
+predMass = 0.5;
 % preyFriction of predator
-predFriction = 0.2;
+predFriction = 1;
 
 
 
