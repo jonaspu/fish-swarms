@@ -1,9 +1,14 @@
 %--------VARIBALES TO SET--------%
 %clear windows and workspace
-clc; clear;
+clc;
 % field size
-maxX = 10;
-maxY = 10;
+maxX = 20;
+maxY = 20;
+
+% load saved start positions or not?
+% 1 = load
+% 0 = do not load
+loadOld = 0;
 
 % spreading of prey (range of initial position)
 spreadPrey = 5;
@@ -21,7 +26,7 @@ method = 2;
 nOfPrey = 7;
 
 % number of predators
-nOfPred = 1;
+nOfPred = 3;
 
 %the function variables
 gamma = -1;
@@ -30,31 +35,43 @@ alpha = -2;
 % mass of prey
 preyMass = 0.1;
 % preyFriction of prey
-preyFriction = 0.5;
+preyFriction = 0.2;
 
 
 
 % mass of predator
-predMass = 0.5;
+predMass = 0.2;
 % preyFriction of predator
-predFriction = 1;
+predFriction = 0.2;
 
 
 
 %--------INITIALISATION--------%
 
 % timestep (0.01 seems to be optimal)
-step = 0.01;
+step = 0.02;
 
 % prey setup
-positionPrey = rand(2,nOfPrey) * spreadPrey - spreadPrey/2; % position
+
+if(loadOld == 0)
+    positionPrey = rand(2,nOfPrey) * spreadPrey - spreadPrey/2; % position
+else
+    positionPrey = startPositionPrey;
+    nOfPrey = size(positionPrey, 2);
+end
 speedPrey = zeros(2, nOfPrey); % speed
 startPositionPrey = positionPrey;
 % to restore the startingpoints for the plot
 % positionPrey = startPositionPrey;
 
 % predator setup
-positionPred = rand(2, nOfPred) * spreadPred - spreadPred/2; % position
+
+if(loadOld == 0)
+    positionPred = rand(2, nOfPred) * spreadPred - spreadPred/2; % position
+else
+    positionPred = startPositionPred;
+    nOfPred = size(positionPred, 2);
+end
 speedPred = zeros(2, nOfPred); % speed
 startPositionPred = positionPred;
 
